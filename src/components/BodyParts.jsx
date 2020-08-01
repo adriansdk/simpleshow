@@ -6,9 +6,9 @@ import Torso from './bodyparts/Torso';
 function BodyParts() {
   return (
     <div className="BodyParts">
-      <LeftArm></LeftArm>
-      <RightArm></RightArm>
-      <Torso></Torso>
+      <LeftArm name="leftArm"></LeftArm>
+      <RightArm name="rightArm"></RightArm>
+      {/* <Torso></Torso> */}
     </div>
   );
 }
