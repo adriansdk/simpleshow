@@ -5,33 +5,31 @@ export const DropTargets = ({
   isOver,
   canDrop,
   connectDropTarget,
-  height,
+  heigth,
   width,
   xPos,
   yPos,
+  url,
+  key,
+  name,
 }) => {
-  const style = {
-    height: height,
-    width: width,
-    color: 'white',
-    position: 'absolute',
-    left: xPos,
-    top: yPos,
-    border: '5px solid black',
-  };
+  let boxShadow = 'black 5px 5px 10px';
   const isActive = isOver && canDrop;
-  let borderColor = 'black';
   if (isActive) {
-    borderColor = 'darkgreen';
+    boxShadow = 'darkgreen 5px 5px 10px';
   } else if (canDrop) {
-    borderColor = 'darkkhaki';
+    boxShadow = 'darkkhaki 5px 5px 10px';
   }
+  const aksgo = {
+    position: 'absolute',
+    top: yPos,
+    left: xPos,
+    heigth: heigth,
+    width: width,
+    // boxShadow: boxShadow,
+  };
   return connectDropTarget(
-    <div style={{ ...style, borderColor }}>
-      {isActive
-        ? 'Release to drop'
-        : `This dustbin accepts: ${accepts.join(', ')}`}
-    </div>
+    <img src={url} key={key} alt={name} style={aksgo}></img>
   );
 };
 export default DropTarget(

@@ -8,22 +8,19 @@ export const LeftArm = ({
   connectDragSource,
   key,
   url,
-  vh,
-  vw,
   xPos,
   yPos,
   heigth,
   width,
 }) => {
-  console.log(vh, vw);
   const style = {
     visibility: isDropped ? 'hidden' : 'visible',
     opacity: isDragging ? '0.3' : '1',
     position: 'absolute',
     top: yPos,
     left: xPos,
-    heigth: (heigth * 100) / 100,
-    width: (width * 100) / 100,
+    heigth: heigth,
+    width: width,
   };
   return connectDragSource(
     <img src={url} key={key} alt={name} style={style}></img>
