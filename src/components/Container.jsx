@@ -14,32 +14,29 @@ export const Container = () => {
   ]);
   const [boxes] = useState(Constants.BodyParts);
 
-  const [vh, setVh] = useState(window.innerHeight);
-  const [vw, setVw] = useState(window.innerWidth);
+  const [scale, setScale] = useState(getScale());
 
   useEffect(() => {
     window.addEventListener('resize', updateViewport);
   });
 
-  function updateViewport() {
-    setVh(window.innerHeight);
-    setVw(window.innerWidth);
+  function getScale() {
+    const baseScale = 1;
+    let widthDifference = ((window.innerWidth - 1920) / 1920) * 100.0;
+    let heightDifference = ((window.innerHeight - 1080) / 1080) * 100.0;
+    let decimalWidthDifference = (widthDifference /= 100);
+    let decimalHeightDifference = (heightDifference /= 100);
+    if (Math.abs(decimalHeightDifference) > Math.abs(decimalWidthDifference)) {
+      return baseScale + heightDifference;
+    } else if (
+      Math.abs(decimalHeightDifference) < Math.abs(decimalWidthDifference)
+    ) {
+      return baseScale + widthDifference;
+    }
   }
 
-  const baseW = 1920;
-  const baseH = 1080;
-
-  function getPos(distance, dimension) {
-    var viewportSize;
-    var relativeDimension;
-    if (dimension === 'width') {
-      viewportSize = (vw / baseW) * 100;
-      relativeDimension = viewportSize / 100;
-      return relativeDimension * distance;
-    }
-    viewportSize = (vh / baseH) * 100;
-    relativeDimension = viewportSize / 100;
-    return relativeDimension * distance;
+  function updateViewport() {
+    setScale(getScale);
   }
 
   const [droppedBoxNames, setDroppedBoxNames] = useState([]);
@@ -71,12 +68,13 @@ export const Container = () => {
     <div
       style={{
         backgroundImage: `url(${Background})`,
-        width: '100%',
-        height: '100%',
+        width: '1920px',
+        height: '1080px',
+        backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat ',
         position: 'relative',
-        transform: 'scale(1)',
+        transform: `scale(${scale})`,
+        transformOrigin: 'left top',
       }}
     >
       {boxes.map((object, index) => {
@@ -90,6 +88,7 @@ export const Container = () => {
             xPos={object.target.xPos}
             yPos={object.target.yPos}
             key={index}
+            url={object.url}
           />
         );
       })}
@@ -101,12 +100,10 @@ export const Container = () => {
             isDropped={isDropped(object.name)}
             key={index}
             url={object.url}
-            xPos={getPos(object.xPos, 'width')}
-            yPos={getPos(object.yPos, 'height')}
+            yPos={object.yPos}
+            xPos={object.xPos}
             height={object.height}
             width={object.width}
-            vh={vh}
-            vw={vw}
           />
         );
       })}
