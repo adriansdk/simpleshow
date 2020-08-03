@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 
 export const DragTargets = ({
   accept,
-  heigth,
+  height,
   onDrop,
   width,
   xPos,
@@ -20,31 +20,45 @@ export const DragTargets = ({
       canDrop: monitor.canDrop(),
     }),
   });
-  const didDrop = false;
+
+  const didDrop = true;
+  console.log(lastDroppedItem);
+
   function renderObject(dropped) {
-    if (didDrop === true) {
-      return <img src={url} key={key} alt={name} style={style} ref={key}></img>;
+    if (lastDroppedItem !== null) {
+      return <img src={url} key={key} alt={name} style={style} ref={key} />;
     } else {
-      return <img src={url} key={key} alt={name} style={style} ref={key}></img>;
+      return <img src={url} key={key} alt={name} style={style2} ref={key} />;
     }
   }
-  let boxShadow = 'black 5px 5px 10px';
+  let filter = 'drop-shadow(4px 4px 6px red)';
 
   const isActive = isOver && canDrop;
   if (isActive) {
-    boxShadow = 'darkgreen 5px 5px 10px';
+    filter = 'drop-shadow(4px 4px 6px green)';
   } else if (canDrop) {
-    boxShadow = 'darkkhaki 5px 5px 10px';
+    filter = 'drop-shadow(4px 4px 6px yellow)';
   }
+
+  const style2 = {
+    position: 'absolute',
+    top: yPos,
+    left: xPos,
+    height: height,
+    width: width,
+    filter: filter,
+    opacity: canDrop ? '0.4' : '0',
+  };
+
   const style = {
     opacity: canDrop ? '0.4' : '1',
     visibility: canDrop || didDrop ? 'visible' : 'hidden',
     position: 'absolute',
     top: yPos,
     left: xPos,
-    heigth: heigth,
+    heigth: height,
     width: width,
-    boxShadow: boxShadow,
+    // filter: filter,
   };
 
   return <div>{renderObject(true)}</div>;

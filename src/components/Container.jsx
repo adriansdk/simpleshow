@@ -15,6 +15,7 @@ export const Container = props => {
   function isDropped(boxName) {
     return droppedBoxNames.indexOf(boxName) > -1;
   }
+
   const handleDrop = useCallback(
     (index, item) => {
       const { name } = item;
@@ -32,7 +33,7 @@ export const Container = props => {
           },
         })
       );
-      console.log(droppedBoxNames.length, boxes.length);
+
       if (droppedBoxNames.length === boxes.length - 1) {
         endScene('end');
       }
