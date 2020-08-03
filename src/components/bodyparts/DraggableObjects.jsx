@@ -1,18 +1,27 @@
 import React from 'react';
-import { DragSource } from 'react-dnd';
-
-export const LeftArm = ({
+import { useDrag } from 'react-dnd';
+export const DraggableObject = ({
   name,
+  type,
   isDropped,
-  isDragging,
-  connectDragSource,
-  key,
+  index,
   url,
   xPos,
   yPos,
   heigth,
   width,
 }) => {
+  const [{ isDragging }, drag] = useDrag({
+    item: { name, type },
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+    end: (item, monitor) => {
+      if (monitor.didDrop()) {
+        console.log(`You attached ${item.name}!`);
+      }
+    },
+  });
   const style = {
     visibility: isDropped ? 'hidden' : 'visible',
     opacity: isDragging ? '0.3' : '1',
@@ -22,17 +31,7 @@ export const LeftArm = ({
     heigth: heigth,
     width: width,
   };
-  return connectDragSource(
-    <img src={url} key={key} alt={name} style={style}></img>
+  return (
+    <img src={url} key={index} alt={name} style={{ ...style }} ref={drag}></img>
   );
 };
-export default DragSource(
-  props => props.type,
-  {
-    beginDrag: props => ({ name: props.name }),
-  },
-  (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-  })
-)(LeftArm);

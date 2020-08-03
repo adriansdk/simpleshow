@@ -1,45 +1,17 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import DragTargets from './targets/DragTargets';
-import DraggableObjets from './bodyparts/DraggableObjects';
+import { DragTargets } from './targets/DragTargets';
+import { DraggableObject } from './bodyparts/DraggableObjects';
 import Constants from './Megazord';
 import update from 'immutability-helper';
 import Background from '../assets/svg/hanger_background.svg';
+import Instruction from './Instruction';
 
-export const Container = () => {
-  const [targets, setTargets] = useState([
-    { accepts: [Constants.ItemTypes.LEFTARM], lastDroppedItem: null },
-    { accepts: [Constants.ItemTypes.RIGHTARM], lastDroppedItem: null },
-    { accepts: [Constants.ItemTypes.CHEST], lastDroppedItem: null },
-    { accepts: [Constants.ItemTypes.HEAD], lastDroppedItem: null },
-  ]);
-  const [boxes] = useState(Constants.BodyParts);
-
-  const [scale, setScale] = useState(getScale());
-
-  useEffect(() => {
-    window.addEventListener('resize', updateViewport);
-  });
-
-  function getScale() {
-    const baseScale = 1;
-    let widthDifference = ((window.innerWidth - 1920) / 1920) * 100.0;
-    let heightDifference = ((window.innerHeight - 1080) / 1080) * 100.0;
-    let decimalWidthDifference = (widthDifference /= 100);
-    let decimalHeightDifference = (heightDifference /= 100);
-    if (Math.abs(decimalHeightDifference) > Math.abs(decimalWidthDifference)) {
-      return baseScale + heightDifference;
-    } else if (
-      Math.abs(decimalHeightDifference) < Math.abs(decimalWidthDifference)
-    ) {
-      return baseScale + widthDifference;
-    }
-  }
-
-  function updateViewport() {
-    setScale(getScale);
-  }
-
+export const Container = props => {
+  const [boxes, setBoxes] = useState(Constants.BodyParts);
   const [droppedBoxNames, setDroppedBoxNames] = useState([]);
+
+  const endScene = props.switchScene;
+
   function isDropped(boxName) {
     return droppedBoxNames.indexOf(boxName) > -1;
   }
@@ -49,20 +21,24 @@ export const Container = () => {
       setDroppedBoxNames(
         update(droppedBoxNames, name ? { $push: [name] } : { $push: [] })
       );
-      setTargets(
-        update(targets, {
+      setBoxes(
+        update(boxes, {
           [index]: {
-            lastDroppedItem: {
-              $set: item,
+            target: {
+              lastDroppedItem: {
+                $set: item,
+              },
             },
           },
         })
       );
+      console.log(droppedBoxNames.length, boxes.length);
+      if (droppedBoxNames.length === boxes.length - 1) {
+        endScene('end');
+      }
     },
-    [droppedBoxNames, targets]
+    [droppedBoxNames, boxes, endScene]
   );
-
-  // viewport width /1920
 
   return (
     <div
@@ -72,15 +48,17 @@ export const Container = () => {
         height: '1080px',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
-        position: 'relative',
-        transform: `scale(${scale})`,
-        transformOrigin: 'left top',
+        position: 'absolute',
+        zIndex: '1',
+        top: '0',
+        left: '0',
       }}
     >
+      <Instruction></Instruction>
       {boxes.map((object, index) => {
         return (
           <DragTargets
-            accepts={object.target.accepts}
+            accept={object.target.accepts}
             lastDroppedItem={object.target.lastDroppedItem}
             onDrop={item => handleDrop(index, item)}
             height={object.height}
@@ -88,16 +66,18 @@ export const Container = () => {
             xPos={object.target.xPos}
             yPos={object.target.yPos}
             key={index}
+            index={index}
             url={object.url}
           />
         );
       })}
       {boxes.map((object, index) => {
         return (
-          <DraggableObjets
+          <DraggableObject
             name={object.name}
             type={object.type}
             isDropped={isDropped(object.name)}
+            index={index}
             key={index}
             url={object.url}
             yPos={object.yPos}
