@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StartBox from '../../assets/png/start_overlay-box-large.png';
 import StartButton from '../../assets/png/start_button.png';
 

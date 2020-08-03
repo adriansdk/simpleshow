@@ -5,6 +5,9 @@ import ChestImage from '../assets/svg/simplemech-chest.svg';
 import LeftLegImage from '../assets/svg/simplemech-leg1.svg';
 import RightLegImage from '../assets/svg/simplemech-leg2.svg';
 
+// MEGAZORD IS THE ONLY POSSIBLE NAME FOR THIS FILE
+// Constants would also be a good idea.
+
 const ItemTypes = {
   LEFTARM: 'leftArm',
   RIGHTARM: 'rightArm',

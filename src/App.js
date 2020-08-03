@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import Exports from './exports.js'
+import Container from './exports.js'
 
 import './App.css'
 import StartScene from './components/scenes/StartScene.jsx';
 import EndScene from './components/scenes/EndScene.jsx';
+import { CustomDragLayer } from './components/bodyparts/CustomDragLayer.jsx';
 
 function App() {
-
-  const [scene, setScene] = useState('intro')
-  let currentScene
-
-  function switchScene(sceneName) {
-    setScene(sceneName)
-  }
-
-  const [scale, setScale] = useState(getScale());
-
+  const [scale, setScale] = useState(getScale);
   useEffect(() => {
     window.addEventListener('resize', updateViewport);
   });
 
+  function updateViewport() {
+    setScale(getScale);
+  }
   function getScale() {
     const baseScale = 1;
     let widthDifference = ((window.innerWidth - 1920) / 1920) * 100.0;
@@ -37,16 +32,11 @@ function App() {
     }
   }
 
-  function updateViewport() {
-    setScale(getScale);
+  const [scene, setScene] = useState('intro')
+  function switchScene(sceneName) {
+    setScene(sceneName)
   }
 
-  if (scene === 'intro') {
-    currentScene = <StartScene switchScene={switchScene} scale={scale}></StartScene>
-
-  } else if (scene === 'assembly') {
-    currentScene = <Exports switchScene={switchScene} scale={scale}></Exports>
-  }
 
   return (
     <div className="App"
@@ -56,9 +46,11 @@ function App() {
         transformOrigin: 'left top',
       }}>
       <DndProvider backend={HTML5Backend}>
-        {scene === 'intro' ? <StartScene switchScene={switchScene} scale={scale}></StartScene> : <div></div>}
-        {scene === 'end' ? <EndScene switchScene={switchScene} scale={scale}></EndScene> : <div></div>}
-        <Exports switchScene={switchScene} scale={scale}></Exports>
+        {scene === 'intro' ? <StartScene switchScene={switchScene} scale={scale}></StartScene> : <React.Fragment></React.Fragment>}
+        {scene === 'end' ? <EndScene switchScene={switchScene} scale={scale}></EndScene> : <React.Fragment></React.Fragment>}
+        <Container switchScene={switchScene} scale={scale}></Container>
+        <CustomDragLayer scale={scale}
+        ></CustomDragLayer>
       </DndProvider>
 
     </div>
