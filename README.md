@@ -1,68 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align=center>
+    <h1 align=center>
+        <br>
+        Simpleshow front-end assessment 
+        <br>
+    </h1>
+    <p style="font-size: 1.35rem; font-weight: 500; padding: 2rem; text-align: center"> This challenge proposition is to build an interactive scene with Drag 'n' drop features.  </p>
+    <br>
+</div>
 
-## Available Scripts
+# Setup
 
-In the project directory, you can run:
+### Requirements
 
-### `npm start`
+- Node Package Manager (NPM)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Installation
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+- Clone the [repository]('https://github.com/adriansdk/simpleshow.git')
+- Install dependencies using: `npm install`
+- Run the app in the development mode using: `npm start`
+- The app should automatically open at `http://localhost:3000`, if not, open manually and have fun!
 
-### `npm test`
+# Decision making and considerations.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Choice of tools:
 
-### `npm run build`
+My first significant decision was which tool I was going to use for state management and which framework better suited this project. Due to the scale of my app and personal prefference. My first idea was to use Vue.js, what changed my mind was analyzing the capabilities of drag and drop libraries available in each framework. [Vue Draggable](https://github.com/SortableJS/Vue.Draggable) being the main candidate for Vue, but unfortunately falling short in comparison to [react-dnd](https://github.com/react-dnd/react-dnd), mostly because of way better cross-browser compatibility and availability of hooks. So I ended up going with React.js and react-dnd.<br>
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Project management:
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Decided to take the time to work on organizing myself with Trello, it's simple and gets the job done with the least amount of setup, making this a great choice for such a quick project, plus it feels nice to see tasks being completed and labels turning green. Also I have grown into the habit of sharing branch names with tasks id's.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+##### All my individual tasks can be found here: [My Trello Board](https://trello.com/b/rGYiIIK9/megazord) (It's called Megazord for obvious reasons)
 
-### `npm run eject`
+# Developer:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [Adrian Visnieski](https://github.com/adriansdk)

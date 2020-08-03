@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDrag } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
+
 export const DraggableObject = ({
   name,
   type,
@@ -11,8 +13,8 @@ export const DraggableObject = ({
   heigth,
   width,
 }) => {
-  const [{ isDragging }, drag] = useDrag({
-    item: { name, type },
+  const [{ isDragging }, drag, preview] = useDrag({
+    item: { name, type, url, xPos, yPos, heigth, width, index },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -22,6 +24,11 @@ export const DraggableObject = ({
       }
     },
   });
+
+  useEffect(() => {
+    preview(getEmptyImage(), { captureDraggingState: true });
+  }, [preview]);
+
   const style = {
     visibility: isDropped ? 'hidden' : 'visible',
     opacity: isDragging ? '0.3' : '1',

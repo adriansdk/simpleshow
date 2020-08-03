@@ -21,26 +21,25 @@ export const DragTargets = ({
     }),
   });
 
-  const didDrop = true;
-  console.log(lastDroppedItem);
-
-  function renderObject(dropped) {
+  function renderTargets() {
     if (lastDroppedItem !== null) {
-      return <img src={url} key={key} alt={name} style={style} ref={key} />;
+      return <img src={url} key={key} alt={name} style={attached} ref={key} />;
     } else {
-      return <img src={url} key={key} alt={name} style={style2} ref={key} />;
+      return (
+        <img src={url} key={key} alt={name} style={notAttached} ref={key} />
+      );
     }
   }
-  let filter = 'drop-shadow(4px 4px 6px red)';
 
   const isActive = isOver && canDrop;
+  let filter = 'drop-shadow(4px 4px 6px red)';
   if (isActive) {
     filter = 'drop-shadow(4px 4px 6px green)';
   } else if (canDrop) {
     filter = 'drop-shadow(4px 4px 6px yellow)';
   }
 
-  const style2 = {
+  const notAttached = {
     position: 'absolute',
     top: yPos,
     left: xPos,
@@ -50,7 +49,8 @@ export const DragTargets = ({
     opacity: canDrop ? '0.4' : '0',
   };
 
-  const style = {
+  const didDrop = true;
+  const attached = {
     opacity: canDrop ? '0.4' : '1',
     visibility: canDrop || didDrop ? 'visible' : 'hidden',
     position: 'absolute',
@@ -58,8 +58,7 @@ export const DragTargets = ({
     left: xPos,
     heigth: height,
     width: width,
-    // filter: filter,
   };
 
-  return <div>{renderObject(true)}</div>;
+  return <div>{renderTargets()}</div>;
 };

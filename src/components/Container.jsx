@@ -1,21 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DragTargets } from './targets/DragTargets';
-import { DraggableObject } from './bodyparts/DraggableObjects';
-import Constants from './Megazord';
+import { DraggableObject } from './bodyparts/DraggableObject';
+import Constants from './Megazord.js';
 import update from 'immutability-helper';
 import Background from '../assets/svg/hanger_background.svg';
-import Instruction from './Instruction';
+import Instruction from './InstructionsBox';
 
 export const Container = props => {
   const [boxes, setBoxes] = useState(Constants.BodyParts);
   const [droppedBoxNames, setDroppedBoxNames] = useState([]);
 
   const endScene = props.switchScene;
-
-  function isDropped(boxName) {
-    return droppedBoxNames.indexOf(boxName) > -1;
-  }
-
   const handleDrop = useCallback(
     (index, item) => {
       const { name } = item;
@@ -41,6 +36,10 @@ export const Container = props => {
     [droppedBoxNames, boxes, endScene]
   );
 
+  function isDropped(boxName) {
+    return droppedBoxNames.indexOf(boxName) > -1;
+  }
+
   return (
     <div
       style={{
@@ -58,34 +57,32 @@ export const Container = props => {
       <Instruction></Instruction>
       {boxes.map((object, index) => {
         return (
-          <DragTargets
-            accept={object.target.accepts}
-            lastDroppedItem={object.target.lastDroppedItem}
-            onDrop={item => handleDrop(index, item)}
-            height={object.height}
-            width={object.width}
-            xPos={object.target.xPos}
-            yPos={object.target.yPos}
-            key={index}
-            index={index}
-            url={object.url}
-          />
-        );
-      })}
-      {boxes.map((object, index) => {
-        return (
-          <DraggableObject
-            name={object.name}
-            type={object.type}
-            isDropped={isDropped(object.name)}
-            index={index}
-            key={index}
-            url={object.url}
-            yPos={object.yPos}
-            xPos={object.xPos}
-            height={object.height}
-            width={object.width}
-          />
+          <div>
+            <DragTargets
+              accept={object.target.accepts}
+              lastDroppedItem={object.target.lastDroppedItem}
+              onDrop={item => handleDrop(index, item)}
+              height={object.height}
+              width={object.width}
+              xPos={object.target.xPos}
+              yPos={object.target.yPos}
+              key={index}
+              index={index}
+              url={object.url}
+            ></DragTargets>
+            <DraggableObject
+              name={object.name}
+              type={object.type}
+              isDropped={isDropped(object.name)}
+              index={index}
+              key={index}
+              url={object.url}
+              yPos={object.yPos}
+              xPos={object.xPos}
+              height={object.height}
+              width={object.width}
+            ></DraggableObject>
+          </div>
         );
       })}
     </div>
