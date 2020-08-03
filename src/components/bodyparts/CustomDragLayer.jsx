@@ -2,20 +2,27 @@ import React from 'react';
 import { useDragLayer } from 'react-dnd';
 import { DraggableObjectPreview } from './DraggableObjectPreview';
 
-function getItemStyles(initialOffset, currentOffset) {
+function getItemStyles(initialOffset, currentOffset, scale) {
   if (!initialOffset || !currentOffset) {
     return {
       display: 'none',
     };
   }
   let { x, y } = currentOffset;
+  if (scale > 1) {
+    x = currentOffset.x * scale;
+    y = currentOffset.y * scale;
+  } else {
+    x = currentOffset.x / scale;
+    y = currentOffset.y / scale;
+  }
   const transform = `translate(${x}px, ${y}px)`;
   return {
     transform,
     WebkitTransform: transform,
   };
 }
-export const CustomDragLayer = () => {
+export const CustomDragLayer = props => {
   const {
     itemType,
     isDragging,
@@ -23,6 +30,7 @@ export const CustomDragLayer = () => {
     initialOffset,
     currentOffset,
   } = useDragLayer(monitor => ({
+    clientOffset: monitor.getClientOffset(),
     item: monitor.getItem(),
     itemType: monitor.getItemType(),
     initialOffset: monitor.getInitialSourceClientOffset(),
@@ -59,7 +67,7 @@ export const CustomDragLayer = () => {
   };
   return (
     <div style={layerStyles}>
-      <div style={getItemStyles(initialOffset, currentOffset)}>
+      <div style={getItemStyles(initialOffset, currentOffset, props.scale)}>
         {renderItem()}
       </div>
     </div>

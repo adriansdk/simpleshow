@@ -8,3 +8,32 @@ body {
   margin: 0px;
   overflow: hidden;
 }
+
+.btn {
+  height: 55px;
+  width: 100px;
+  position: absolute;
+  font-weight: bolder;
+  font-family: cursive;
+  font-size: 14px;
+  z-index: 3;
+  cursor: pointer;
+  background-color: white;
+}
+
+.draggable {
+  cursor: move;
+}
+
+@-webkit-keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+

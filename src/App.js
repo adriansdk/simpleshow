@@ -7,6 +7,7 @@ import './App.css'
 import StartScene from './components/scenes/StartScene.jsx';
 import EndScene from './components/scenes/EndScene.jsx';
 import { CustomDragLayer } from './components/bodyparts/CustomDragLayer.jsx';
+import BonusScene from './components/scenes/BonusScene.jsx';
 
 function App() {
   const [scale, setScale] = useState(getScale);
@@ -32,6 +33,8 @@ function App() {
     }
   }
 
+  const [draggableBonus, setDraggableBonus] = useState(false);
+  const [bonus, setBonus] = useState(false);
   const [scene, setScene] = useState('intro')
   function switchScene(sceneName) {
     setScene(sceneName)
@@ -47,8 +50,9 @@ function App() {
       }}>
       <DndProvider backend={HTML5Backend}>
         {scene === 'intro' ? <StartScene switchScene={switchScene} scale={scale}></StartScene> : <React.Fragment></React.Fragment>}
-        {scene === 'end' ? <EndScene switchScene={switchScene} scale={scale}></EndScene> : <React.Fragment></React.Fragment>}
-        <Container switchScene={switchScene} scale={scale}></Container>
+        {scene === 'end' ? <EndScene switchScene={switchScene} scale={scale} setBonus={setBonus}></EndScene> : <React.Fragment></React.Fragment>}
+        {scene === 'bonus' ? <BonusScene switchScene={switchScene} setDraggableBonus={setDraggableBonus} scale={scale}></BonusScene> : <React.Fragment></React.Fragment>}
+        <Container switchScene={switchScene} scale={scale} bonus={bonus} draggableBonus={draggableBonus}></Container>
         <CustomDragLayer scale={scale}
         ></CustomDragLayer>
       </DndProvider>

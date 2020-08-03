@@ -10,11 +10,11 @@ export const DraggableObject = ({
   url,
   xPos,
   yPos,
-  heigth,
+  height,
   width,
 }) => {
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { name, type, url, xPos, yPos, heigth, width, index },
+    item: { name, type, url, xPos, yPos, height, width, index },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),
@@ -35,10 +35,17 @@ export const DraggableObject = ({
     position: 'absolute',
     top: yPos,
     left: xPos,
-    heigth: heigth,
+    heigth: height,
     width: width,
   };
   return (
-    <img src={url} key={index} alt={name} style={{ ...style }} ref={drag}></img>
+    <img
+      src={url}
+      className={'draggable'}
+      key={index}
+      alt={name}
+      style={{ ...style }}
+      ref={drag}
+    ></img>
   );
 };

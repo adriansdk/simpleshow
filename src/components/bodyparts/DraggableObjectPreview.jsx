@@ -5,5 +5,13 @@ export const DraggableObjectPreview = memo(({ name, index, url }) => {
     display: 'inline-block',
   };
 
-  return <img src={url} key={index} alt={name} style={styles}></img>;
+  return (
+    <img
+      src={url}
+      className={'draggable'}
+      key={index}
+      alt={name}
+      style={styles}
+    ></img>
+  );
 });
